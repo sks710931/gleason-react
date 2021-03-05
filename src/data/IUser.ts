@@ -3,6 +3,7 @@ export interface IUser{
   password: string;
   email: string;
   name: string;
+  id:number;
 }
 
 export interface IUserLoginSuccessResponse{
