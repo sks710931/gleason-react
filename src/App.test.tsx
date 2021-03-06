@@ -1,9 +1,20 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import App from './App';
+import { BrowserRouter } from 'react-router-dom';
 
-it('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe("<App />", () => {
+
+  const getRender = () =>{
+    return render(
+      <BrowserRouter>
+      <App />
+    </BrowserRouter>
+    );
+  }
+  it('renders learn react link', () => {
+    const {getByText} = getRender();
+    const linkElement = getByText("GEMS Cloud Web Application");
+    expect(linkElement).toBeInTheDocument();
+  });
 });

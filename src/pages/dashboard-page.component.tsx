@@ -1,9 +1,8 @@
 import React from "react";
 import { Link, Route, Switch } from "react-router-dom";
 import { DashboardContent } from "./dashboard-content";
-import "./login.css";
 import { UserManagement } from "./user-management.component";
-export const Dashboard = () => {
+export const DashboardPage = () => {
   return (
     <div className="dashboard">
       <div className="sidebar">
