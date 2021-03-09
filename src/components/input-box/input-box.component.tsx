@@ -2,20 +2,24 @@ import { makeStyles, Theme } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
 import React, { ReactElement } from "react";
 
-interface InputBoxProps {
+export interface InputBoxProps {
   type: string;
   placeholder: string;
   value: string;
   onTextChange: (text: string) => void;
   icon: string;
 }
+
 export const InputBox = (props: InputBoxProps): ReactElement<InputBoxProps> => {
   const { type, placeholder, value, onTextChange, icon } = props;
   const classes: any = useStyles();
   return (
     <div className={classes.inputBox}>
-      <Icon className={classes.inputIcon}>{icon}</Icon>
+      <Icon data-testid="icon" className={classes.inputIcon}>
+        {icon}
+      </Icon>
       <input
+        data-testid="input-field"
         autoComplete="off"
         value={value}
         onChange={($event) => onTextChange($event.target.value)}

@@ -1,16 +1,16 @@
-import React from 'react';
-import './App.css';
-import './pages/login.css';
-import { Login } from './pages/login.component';
-import { Route, Switch } from 'react-router-dom';
-import { DashboardPage } from './pages/dashboard-page.component';
+import React from "react";
+import "./App.css";
+import "./pages/login.css";
+import { Login } from "./pages/login.component";
+import { Route, Switch } from "react-router-dom";
+import { Layout } from "./layout/layout.component";
 
 function App() {
   return (
     <div className="App">
       <Switch>
-      <Route  path="/dashboard"  component={DashboardPage}></Route>
-      <Route exact path="/"  component={Login}></Route>
+        <Route exact path="/login" component={Login}></Route>
+        <Route  path="/" component={Layout}></Route>
       </Switch>
     </div>
   );

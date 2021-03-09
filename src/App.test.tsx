@@ -14,7 +14,7 @@ describe("<App />", () => {
   }
   it('renders learn react link', () => {
     const {getByText} = getRender();
-    const linkElement = getByText("GEMS Cloud Web Application");
+    const linkElement = getByText("G");
     expect(linkElement).toBeInTheDocument();
   });
 });
