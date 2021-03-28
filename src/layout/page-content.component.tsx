@@ -3,14 +3,14 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { DashboardContent } from "../pages/dashboard-content";
 import { PageNotFound } from "../pages/not-found.page";
-import { UserManagement } from "../pages/user-management.component";
+import { PostsSection } from './../pages/sections/posts.section';
 
 export const PageContent = () => {
   const classes: any = useStyles();
   return (
     <div className={classes.pageContent}>
       <Switch>
-        <Route exact path="/user-management" component={UserManagement}></Route>
+        <Route exact path="/all-posts" component={PostsSection}></Route>
         <Route exact path="/dashboard" component={DashboardContent}></Route>
         <Route path="*" component={PageNotFound} />
       </Switch>
