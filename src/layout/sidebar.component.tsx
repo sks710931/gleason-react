@@ -39,7 +39,8 @@ const useStyles = makeStyles(({ palette }: Theme): any => ({
   },
   minimizedSidebar:{
     width: 45,
-    overflow:`hidden`
+    overflow:`hidden`,
+    
   },
   sidebarHead: {
     backgroundColor: `#709ef5`,

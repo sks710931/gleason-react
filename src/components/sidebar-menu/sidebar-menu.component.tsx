@@ -8,12 +8,13 @@ export interface SidebarMenuProps {
   menuTitle: string;
   isParent: boolean;
   routeToNavigate: string;
+  isIconMaterial: boolean;
 }
 export const SidebarMenu = (
   props: SidebarMenuProps
 ): ReactElement<SidebarMenuProps> => {
   const history = useHistory();
-  const { icon, menuTitle , routeToNavigate} = props;
+  const { icon, menuTitle , routeToNavigate, isIconMaterial} = props;
   const classes: any = useStyles();
 
   const clickHandler = () => {
@@ -22,7 +23,7 @@ export const SidebarMenu = (
   return (
     <div onClick={clickHandler} className={classes.menu}>
       <div>
-        <Icon>{icon}</Icon>
+        { isIconMaterial ? <Icon>{icon}</Icon> : <Icon className={icon}></Icon>}
         <p>{menuTitle}</p>
       </div>
     </div>

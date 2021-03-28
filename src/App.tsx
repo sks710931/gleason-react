@@ -4,6 +4,7 @@ import "./pages/login.css";
 import { Login } from "./pages/login.component";
 import { Route, Switch } from "react-router-dom";
 import { Layout } from "./layout/layout.component";
+import './styles/styles.scss';
 
 function App() {
   return (
