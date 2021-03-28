@@ -2,6 +2,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { DashboardContent } from "../pages/dashboard-content";
+import { PageNotFound } from "../pages/not-found.page";
 import { UserManagement } from "../pages/user-management.component";
 
 export const PageContent = () => {
@@ -9,8 +10,9 @@ export const PageContent = () => {
   return (
     <div className={classes.pageContent}>
       <Switch>
-        <Route path="/user-management" component={UserManagement}></Route>
-        <Route path="/dashboard" component={DashboardContent}></Route>
+        <Route exact path="/user-management" component={UserManagement}></Route>
+        <Route exact path="/dashboard" component={DashboardContent}></Route>
+        <Route path="*" component={PageNotFound} />
       </Switch>
     </div>
   );

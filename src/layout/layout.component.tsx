@@ -16,7 +16,6 @@ export const Layout = ({ history }: RouteComponentProps): ReactElement => {
   useEffect(() => {
     if (!isLoading) {
       if (!isAuthenticated) {
-        console.log("hit")
         history.push("/login");
       }
     }
@@ -25,8 +24,8 @@ export const Layout = ({ history }: RouteComponentProps): ReactElement => {
     <div className={classes.dashboard}>
       <Sidebar
         isMinimized={!isSidebarExpanded}
-        header="Gleason"
-        minimizedHader="G"
+        header="Blog Admin"
+        minimizedHader="B"
       />
       <div
         className={`${classes.content} ${

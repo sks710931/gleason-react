@@ -1,10 +1,10 @@
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import {
-  SidebarMenu,
-  SidebarMenuProps,
+  SidebarMenu
 } from "../components/sidebar-menu/sidebar-menu.component";
+import { sidebarMenus } from "../mocks/sidebar-menu";
 
 export interface SidebarProps{
   isMinimized: boolean;
@@ -13,16 +13,6 @@ export interface SidebarProps{
 }
 export const Sidebar = (props: SidebarProps) => {
   const classes: any = useStyles();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [menuItems, setMenuItems] = useState<SidebarMenuProps[]>([
-    {
-      icon: "perm_identity",
-      isParent: false,
-      menuTitle: "User Management",
-      routeToNavigate: "user-management",
-    }
-  ]);
-
   const {isMinimized, minimizedHader, header} = props;
   const history = useHistory();
   return (
@@ -32,7 +22,7 @@ export const Sidebar = (props: SidebarProps) => {
       </div>
       <div className={classes.sidebarMenu}>
         {
-          menuItems.map( menu => (<SidebarMenu {...menu} />))
+          sidebarMenus.map( (menu , index)=> (<SidebarMenu key={index} {...menu} />))
         }
       </div>
     </div>
