@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { Icon } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
@@ -6,7 +7,8 @@ interface NavBarProps {
   onToggleMenu: () => void;
 }
 export const NavBar = (props: NavBarProps) => {
-  const {onToggleMenu} = props;
+  const { logout, isAuthenticated } = useAuth0();
+  const { onToggleMenu } = props;
   const classes: any = useStyles();
   return (
     <div className={classes.header}>
@@ -22,9 +24,16 @@ export const NavBar = (props: NavBarProps) => {
         <button className={classes.icon}>
           <Icon>more_vert</Icon>
         </button>
-        <button className={classes.icon}>
-          <Icon>fullscreen</Icon>
-        </button>
+
+        {isAuthenticated && (
+          <button
+            onClick={() => logout({ returnTo: window.location.origin })}
+            className={classes.icon}
+          >
+            <span>Logout</span>
+            <Icon>logout</Icon>
+          </button>
+        )}
       </div>
     </div>
   );
@@ -33,7 +42,7 @@ export const NavBar = (props: NavBarProps) => {
 const useStyles = makeStyles(({ palette }: Theme): any => ({
   header: {
     position: `sticky`,
-  top: 0,
+    top: 0,
     backgroundColor: palette.common.white,
     height: 40,
     padding: `0px 10px 0px 10px`,
@@ -42,29 +51,36 @@ const useStyles = makeStyles(({ palette }: Theme): any => ({
     justifyContent: `flex-start`,
     alignItems: `center`,
     color: `#709ef5`,
-    width: `auto`
+    width: `auto`,
   },
   right: {
     width: `100%`,
     display: `flex`,
     justifyContent: `flex-end`,
-    '& button':{
-      marginLeft:`8px`,
-    }
+    "& button": {
+      marginLeft: `8px`,
+    },
+    alignItems: "center",
   },
   left: {
     width: `100%`,
     display: `flex`,
     justifyContent: `flex-start`,
-    '& button':{
-      marginRight:`8px`,
-    }
+    "& button": {
+      marginRight: `8px`,
+    },
   },
   icon: {
     all: `unset`,
     "&:hover": {
       cursor: `pointer !important`,
       opacity: `0.7`,
+    },
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    "& span": {
+      paddingRight: 10,
     },
   },
 }));

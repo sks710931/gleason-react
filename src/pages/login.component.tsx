@@ -1,84 +1,34 @@
-import React, { ReactElement, useState } from "react";
-import axios from "axios";
-import { IUserLoginRequest, IUserLoginSuccessResponse } from "../data/IUser";
-import { useHistory } from "react-router-dom";
-import { InputBox } from "../components/input-box/input-box.component";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { ReactElement, useEffect } from "react";
 import { makeStyles, Theme } from "@material-ui/core";
+import LoginButton from "../components/auth/login-button";
+import { useAuth0 } from "@auth0/auth0-react";
+import { RouteComponentProps } from "react-router";
 
-interface LoginProps {}
-export const Login = (): ReactElement<LoginProps> => {
-  const loginEndpoint = "https://localhost:44331/api/login/login-user";
-  const [loginUser, setLoginUser] = useState<IUserLoginRequest>({
-    password: "",
-    username: "",
-  });
-
-  const history = useHistory();
-  const handleUserNameChange = (e: string) => {
-    setLoginUser({
-      ...loginUser,
-      username: e,
-    });
-  };
-  const handlePasswordChange = (e: string) => {
-    setLoginUser({
-      ...loginUser,
-      password: e,
-    });
-  };
-  const loginHandler = () => {
-    axios
-      .post<IUserLoginSuccessResponse>(loginEndpoint, loginUser, {
-        headers: { "content-type": "application/json" },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          alert("login successful - " + JSON.stringify(response.data));
-          history.push("/dashboard");
-        } else {
-          alert(response.data.message);
-        }
-      });
-  };
-
+interface LoginProps {
+  
+}
+export const Login = ({history}: RouteComponentProps<LoginProps>): ReactElement<RouteComponentProps<LoginProps>> => {
   const classes: any = useStyles();
+  const { isAuthenticated, isLoading } = useAuth0();
+  useEffect(()=> {
+    if(isAuthenticated){
+      history.push('/');
+    }
+  },[isLoading, isAuthenticated])
   return (
     <div className={classes.loginContainer}>
-      <div className={classes.loginBox}>
-        <h3>GEMS Cloud Web Application</h3>
-        <div className={classes.input}>
-          <InputBox
-            onTextChange={($event) => handleUserNameChange($event)}
-            value={loginUser.username}
-            placeholder="Username"
-            type="text"
-            icon="perm_identity"
-          />
+      {!isAuthenticated && (
+        <div className={classes.loginBox}>
+          <h3>Login to Shivam Singh Blog Admin Portal</h3>
+          <LoginButton />
         </div>
-        <div className={classes.input}>
-          <InputBox
-            onTextChange={($event) => handlePasswordChange($event)}
-            value={loginUser.password}
-            placeholder="Password"
-            type="password"
-            icon="lock"
-          />
-        </div>
-        <div className={classes.input}>
-          <button onClick={loginHandler} className={classes.btn}>
-            Sign In
-          </button>
-        </div>
-
-        <a className={classes.link} href="http://google.com">
-          Forgot Password
-        </a>
-      </div>
+      )}
     </div>
   );
 };
 
-const useStyles = makeStyles(({palette}: Theme) => ({
+const useStyles = makeStyles(({ palette }: Theme) => ({
   input: {
     marginTop: 10,
     width: 350,
@@ -96,26 +46,28 @@ const useStyles = makeStyles(({palette}: Theme) => ({
     fontWeight: 500,
     fontSize: 16,
     width: `100%`,
-    '&:hover':{
+    "&:hover": {
       cursor: `pointer`,
       opacity: 0.8,
-    }
+    },
   },
-  loginContainer:{
+  loginContainer: {
     display: `flex`,
     justifyContent: `center`,
     alignItems: `center`,
     height: 800,
     borderRadius: 20,
   },
-  loginBox:{
+  loginBox: {
     display: `flex`,
     flexDirection: `column`,
+    justifyContent: `center`,
+    alignItems: `center`,
     padding: 25,
-    paddingLeft:70,
-    paddingRight:70,
+    paddingLeft: 70,
+    paddingRight: 70,
     backgroundColor: `white`,
     borderRadius: 10,
-    boxShadow: `5px 5px ${palette.grey[200]}`
-  }
+    boxShadow: `5px 5px ${palette.grey[200]}`,
+  },
 }));

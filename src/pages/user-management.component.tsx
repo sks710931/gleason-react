@@ -1,16 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { IUser } from "../data/IUser";
 import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 export const UserManagement = () => {
   const endPoint = "https://localhost:44331/";
+  const {getAccessTokenSilently} = useAuth0();
 
   const [users, setUsers] = useState<IUser[]>();
   useEffect(() => {
-    getUsers();
+    const getUsersAsync = async () => {
+      const token = await getAccessTokenSilently({
+        audience:"https://shivam-singh-blog-api.azurewebsites.net",
+        scope:'all:all'
+      });
+      getUsers(token);
+    }
+    getUsersAsync();
   },[]);
 
-  const getUsers =() => {
+  const getUsers =(token: string) => {
+    console.log(token);
     axios.get<IUser[]>(endPoint + "api/Login").then((response) => {
       if (response.status === 200) setUsers(response.data);
     });
@@ -34,7 +46,7 @@ export const UserManagement = () => {
     .then(response => {
       if(response.data){
         alert("user deleted");
-        getUsers();
+        getUsers("delete handler");
       }
     })
  }

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { InputBox } from '../components/input-box/input-box.component';
+import React from 'react';
 
 export const DashboardContent =() =>  {
 

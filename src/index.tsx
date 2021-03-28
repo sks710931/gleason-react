@@ -3,14 +3,22 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter  } from "react-router-dom";
-
+import { BrowserRouter } from "react-router-dom";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Auth0Provider
+      domain="altegic-studio.auth0.com"
+      clientId="o5AOUeJQjRbSfVCJGqEC77XOwSRJGdpI"
+      redirectUri={window.location.origin}
+      audience="https://shivam-singh-blog-api.azurewebsites.net"
+      scope="read:current_user update:current_user_metadata all:all"
+    >
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
