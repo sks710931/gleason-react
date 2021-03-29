@@ -1,0 +1,97 @@
+import {
+  ChangeEventArgs,
+  HtmlEditor,
+  Image,
+  Inject,
+  Link,
+  QuickToolbar,
+  RichTextEditorComponent,
+  Toolbar,
+  Table,
+} from "@syncfusion/ej2-react-richtexteditor";
+
+interface EditorProps {
+  onContentChange: (eventArgs: string) => void;
+}
+export const Editor = ({ onContentChange }: EditorProps) => {
+  const toolbarSettings = {
+    items: [
+      "Bold",
+      "Italic",
+      "Underline",
+      "StrikeThrough",
+      "FontName",
+      "FontSize",
+      "FontColor",
+      "BackgroundColor",
+      "LowerCase",
+      "UpperCase",
+      "|",
+      "Formats",
+      "Alignments",
+      "OrderedList",
+      "UnorderedList",
+      "Outdent",
+      "Indent",
+      "|",
+      "CreateLink",
+      "Image",
+      "|",
+      "CreateTable",
+      "|",
+      "ClearFormat",
+      "Print",
+      "SourceCode",
+      "FullScreen",
+      "|",
+      "Undo",
+      "Redo",
+    ],
+  };
+  const fontFamily = {
+    default: "Roboto Slab",
+    items: [
+      { text: "Roboto Slab", value: "Roboto Slab, serif" },
+      { text: "Ubuntu", value: "Ubuntu,sans-serif" },
+      { text: "Courier New", value: "Courier New,Courier,monospace" },
+      { text: "Georgia", value: "Georgia,serif" },
+      { text: "Impact", value: "Impact,Charcoal,sans-serif" },
+      { text: "Calibri Light", value: "CalibriLight" },
+    ],
+    width: "100px",
+  };
+  const insertImageSettings = {
+    display: "block",
+    saveUrl: "https://ej2.syncfusion.com/services/api/uploadbox/Save",
+  };
+  const textChangeHandler = (e: ChangeEventArgs) => {
+    onContentChange(e.value);
+  };
+
+  const actionCompleteHandler = (args: any) => {
+    if (args.requestType === "Links") {
+      const embedEle: HTMLElement = document.createElement("blockquote");
+      embedEle.setAttribute("class", "embedly-card");
+      embedEle.appendChild(args.elements[0].parentElement);
+      embedEle.appendChild(document.createElement("p"));
+      args.range.insertNode(embedEle);
+    }
+  };
+  return (
+    <div className="editor">
+      <RichTextEditorComponent
+        change={(e) => textChangeHandler(e!)}
+        width={1200}
+        height={700}
+        toolbarSettings={toolbarSettings}
+        fontFamily={fontFamily}
+        insertImageSettings={insertImageSettings}
+        actionComplete={(e) => actionCompleteHandler(e)}
+      >
+        <Inject
+          services={[Toolbar, Image, Link, HtmlEditor, QuickToolbar, Table]}
+        />
+      </RichTextEditorComponent>
+    </div>
+  );
+};

@@ -5,8 +5,9 @@ import { IPost } from "../../data/IPost";
 import { headerService } from "../../services/content-header.service";
 import { parseDate } from "./../../utils/parse-date";
 import Icon from "@material-ui/core/Icon";
+import { RouteComponentProps } from "react-router";
 
-export const PostsSection = () => {
+export const PostsSection = ({history}: RouteComponentProps) => {
   const [allPosts, setAllPosts] = useState([]);
   useEffect(() => {
     headerService.setHeader("All Posts");
@@ -19,6 +20,9 @@ export const PostsSection = () => {
       });
   }, []);
 
+  const addNewClickHandler = () => {
+    history.push('/add-post');
+  }
   const classes: any = useStyles();
   return (
     <div className={classes.content}>
@@ -27,7 +31,10 @@ export const PostsSection = () => {
           <span>All Posts</span>
         </div>
         <div className="right">
-          <button className="btn">Add New</button>
+        <button onClick={addNewClickHandler} className="btn">
+              <Icon>add</Icon>
+              <p>Add New</p>
+          </button>
         </div>
       </div>
       <div className={classes.table}>
@@ -55,8 +62,8 @@ export const PostsSection = () => {
                     </div>
                   </td>
                   <td>
-                    {post.tags.map((tag) => (
-                      <div className={classes.title}>
+                    {post.tags.map((tag, index) => (
+                      <div key={index} className={classes.title}>
                         <Icon>tag</Icon>
                         <p>{`${tag.tagName}`}</p>
                       </div>
