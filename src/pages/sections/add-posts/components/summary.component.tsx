@@ -1,4 +1,3 @@
-import classes from "*.module.css";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
 export const PostSummaryInput = () => {
