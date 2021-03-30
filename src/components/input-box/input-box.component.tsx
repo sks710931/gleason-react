@@ -7,11 +7,12 @@ export interface InputBoxProps {
   placeholder: string;
   value: string;
   onTextChange: (text: string) => void;
-  icon: string;
+  maxLength?:number;
+  icon?: string;
 }
 
 export const InputBox = (props: InputBoxProps): ReactElement<InputBoxProps> => {
-  const { type, placeholder, value, onTextChange, icon } = props;
+  const { type, placeholder, value, onTextChange, icon, maxLength } = props;
   const classes: any = useStyles();
   return (
     <div className={classes.inputBox}>
@@ -25,6 +26,7 @@ export const InputBox = (props: InputBoxProps): ReactElement<InputBoxProps> => {
         onChange={($event) => onTextChange($event.target.value)}
         className={classes.input}
         type={type}
+        maxLength={maxLength ? maxLength: 100}
         placeholder={placeholder}
       />
     </div>
@@ -37,16 +39,20 @@ const useStyles = makeStyles(({ palette }: Theme): any => ({
     flexDirection: `row`,
     justifyContent: `flex-start`,
     position: `relative`,
+    width: `100%`,
+    marginBottom : 15
   },
   input: {
     width: `100%`,
     border: `1px solid ${palette.grey[400]}`,
     padding: `10px`,
+    height: 20,
     paddingRight: `35px`,
     "&:focus": {
       border: `1px solid ${palette.grey[400]}`,
       borderBottom: `2px solid #709ef5`,
       outline: `none`,
+      height:19,
     },
   },
   inputIcon: {
