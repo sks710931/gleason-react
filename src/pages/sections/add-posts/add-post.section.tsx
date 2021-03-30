@@ -3,15 +3,15 @@ import Icon from "@material-ui/core/Icon";
 import React from "react";
 import { Editor } from "../../../components/Editor/editor.component";
 import { headerService } from "../../../services/content-header.service";
+import { PostSummaryInput } from "./components/summary.component";
 import { TitleTextBox } from "./components/title-text-box.component";
 
 export const AddPostSection = () => {
-  
   headerService.setHeader("Add Post");
   const classes: any = useStyles();
 
   const editorContentChangeHandler = (value: string) => {};
-  
+
   return (
     <div className="section">
       <div className={classes.flexRow}>
@@ -29,15 +29,31 @@ export const AddPostSection = () => {
           </button>
         </div>
       </div>
-      <div className={classes.form}>
-        <TitleTextBox />
-        <Editor onContentChange={editorContentChangeHandler} />
+      <div className={classes.container}>
+        <div className={classes.form}>
+          <TitleTextBox />
+          <Editor onContentChange={editorContentChangeHandler} />
+        </div>
+        <div className={classes.details}>
+          <h3>Additional Details</h3>
+          <PostSummaryInput />
+        </div>
       </div>
     </div>
   );
 };
 
 const useStyles = makeStyles(() => ({
+  details:{
+    paddingLeft: 30,
+    '& h3':{
+      color: "#709ef5",
+    }
+  },
+  container:{
+    display: "flex",
+    flexDirection: "row",
+  },
   form: {
     marginTop: 30,
     display: "flex",
