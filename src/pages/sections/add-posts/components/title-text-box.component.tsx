@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon/Icon";
+import axios from "axios";
 import _ from "lodash";
 import React, { useRef, useState } from "react";
 import { InputBox } from "../../../../components/input-box/input-box.component";
@@ -10,8 +11,11 @@ export const TitleTextBox = () => {
   const delayedCall = useRef(_.debounce(q => verify(q), 1000)).current;
 
 
-  const verify = (title: string) => {
-    console.log('debounced: ', title)
+  const verify = async  (title: string) => {
+    const response = await axios.get(process.env.REACT_APP_ENDPOINT_URL + '/admin/verify-title/' + title);
+    if(response.status === 200){
+      setVerification(response.data);
+    }
   }
   const titleChangeandler = (text: string) => {
     setTitle(text);
