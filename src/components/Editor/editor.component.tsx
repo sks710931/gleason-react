@@ -82,8 +82,8 @@ export const Editor = ({ onContentChange }: EditorProps) => {
     <div className="editor">
       <RichTextEditorComponent
         change={(e) => textChangeHandler(e!)}
-        width={1200}
-        height={700}
+        width={1100}
+        height={620}
         toolbarSettings={toolbarSettings}
         fontFamily={fontFamily}
         insertImageSettings={insertImageSettings}

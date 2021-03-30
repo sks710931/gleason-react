@@ -60,7 +60,7 @@ const useStyles = makeStyles(({ palette }: Theme): any => ({
     },
   },
   inputIcon: {
-    marginTop: 5,
+    marginTop: 8,
     color: palette.grey[600],
     position: `absolute`,
     right: 10,

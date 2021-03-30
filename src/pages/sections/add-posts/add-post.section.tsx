@@ -3,7 +3,9 @@ import Icon from "@material-ui/core/Icon";
 import React from "react";
 import { Editor } from "../../../components/Editor/editor.component";
 import { headerService } from "../../../services/content-header.service";
+import { FeaturedImage } from "./components/featured-image";
 import { PostSummaryInput } from "./components/summary.component";
+import { PostTags } from "./components/tags.component";
 import { TitleTextBox } from "./components/title-text-box.component";
 
 export const AddPostSection = () => {
@@ -37,6 +39,8 @@ export const AddPostSection = () => {
         <div className={classes.details}>
           <h3>Additional Details</h3>
           <PostSummaryInput />
+          <PostTags />
+          <FeaturedImage />
         </div>
       </div>
     </div>
@@ -48,7 +52,11 @@ const useStyles = makeStyles(() => ({
     paddingLeft: 30,
     '& h3':{
       color: "#709ef5",
-    }
+    },
+    overflowY:'auto',
+    overflowX:'hidden',
+    height:'705px',
+    paddingRight: 20,
   },
   container:{
     display: "flex",
@@ -59,7 +67,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    width: 1200,
+    width: 1100,
   },
   button: {
     color: "white",
