@@ -3,13 +3,17 @@ import { makeStyles } from "@material-ui/core";
 import { Theme } from "@material-ui/core/styles";
 import { ImageGalleryDialog } from "./image-gallery-dlg";
 
-export const FeaturedImage = () => {
+interface Props {
+  onChange: (src: string) => void
+}
+export const FeaturedImage = ({onChange}: Props) => {
   const classes: any = useStyles();
   const [isDlgOpen, setDlgOpen] = useState<boolean>(false);
   const [featuredImage, setFeaturedImage] = useState<string>();
   const onDialogClose = (e: string) => {
     setDlgOpen(false);
     setFeaturedImage(e);
+    onChange(e);
   };
 
   const buttonClickHandler = () => {

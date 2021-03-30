@@ -1,19 +1,40 @@
 import { makeStyles } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
-import React from "react";
+import React, { useState } from "react";
 import { Editor } from "../../../components/Editor/editor.component";
 import { headerService } from "../../../services/content-header.service";
 import { FeaturedImage } from "./components/featured-image";
 import { PostSummaryInput } from "./components/summary.component";
 import { PostTags } from "./components/tags.component";
 import { TitleTextBox } from "./components/title-text-box.component";
+import { ISavePost } from './../../../data/IPost';
 
 export const AddPostSection = () => {
+  const initialPost:ISavePost = {
+    description:'',
+    title: '',
+    postModel:'',
+    selectedAuthors:{
+      authorDescription:'',
+      authorImage:'',
+      authorName:'',
+      email:'',
+      id:0,
+      posts:[]
+    }, 
+    selectedTags:[],
+    image:'',
+    readTime: 8,
+  }
   headerService.setHeader("Add Post");
   const classes: any = useStyles();
-
-  const editorContentChangeHandler = (value: string) => {};
-
+  const [post, setPost] = useState<ISavePost>(initialPost);
+  const editorContentChangeHandler = (value: string) => {
+    setPost({...post, postModel: value});
+  };
+  const featuredImageChangeHandler = (src:string) => {
+    setPost({...post, image: `${process.env.REACT_APP_ENDPOINT_URL}/${src}`})
+  }
   return (
     <div className="section">
       <div className={classes.flexRow}>
@@ -40,7 +61,7 @@ export const AddPostSection = () => {
           <h3>Additional Details</h3>
           <PostSummaryInput />
           <PostTags />
-          <FeaturedImage />
+          <FeaturedImage onChange={featuredImageChangeHandler} />
         </div>
       </div>
     </div>

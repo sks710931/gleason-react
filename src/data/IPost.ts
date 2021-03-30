@@ -34,3 +34,14 @@ export interface ITag{
   tagName: string;
   posts: IPost[];
 }
+
+export interface ISavePost
+{
+  title:string;
+  description: string;
+  postModel:string;
+  selectedTags: ITag[];
+  selectedAuthors: IAuthor;
+  image:string;
+  readTime:number;
+}
