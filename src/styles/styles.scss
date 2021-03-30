@@ -127,3 +127,23 @@ tr:nth-child(even) {
 .section{
   padding: 15px;
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #eff6ff; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b8cdf3; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #709ef5; 
+}
+
