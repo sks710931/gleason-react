@@ -9,11 +9,16 @@ import { useTags } from "../../../../hooks/useTags";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useToasts } from "react-toast-notifications";
 
-export const PostTags = () => {
+
+interface Props {
+  onChange : (tags: ITag[]) => void;
+}
+export const PostTags = ({onChange}: Props) => {
   const classes: any = useStyles();
   const {addToast} = useToasts();
   const { getAccessTokenSilently } = useAuth0();
   const [newTag, setNewTag] = useState<string>("");
+  const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
   let tags: ITag[] = useTags();
   const addTagHandler = () => {
     if (newTag !== "") {
@@ -47,6 +52,18 @@ export const PostTags = () => {
       addTag();
     }
   };
+
+  const checkboxChangeHandler = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean, tag: ITag) => {
+    if(checked){
+      setSelectedTags([...selectedTags, tag]);
+      onChange([...selectedTags, tag]);
+    }else{
+      const newtags = selectedTags.filter((tagItem:ITag) => tagItem.id !== tag.id);
+      setSelectedTags(newtags);
+      onChange(newtags);
+    }
+    
+  }
   return (
     <div>
       <h3>Tags</h3>
@@ -69,7 +86,7 @@ export const PostTags = () => {
           return (
             <FormControlLabel
               key={key}
-              control={<Checkbox name={tag.tagName} />}
+              control={<Checkbox onChange={(event, checked) => checkboxChangeHandler(event, checked, tag)} name={tag.tagName} />}
               label={tag.tagName}
             />
           );

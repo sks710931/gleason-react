@@ -7,7 +7,7 @@ import { FeaturedImage } from "./components/featured-image";
 import { PostSummaryInput } from "./components/summary.component";
 import { PostTags } from "./components/tags.component";
 import { TitleTextBox } from "./components/title-text-box.component";
-import { ISavePost } from './../../../data/IPost';
+import { ISavePost, ITag } from './../../../data/IPost';
 
 export const AddPostSection = () => {
   const initialPost:ISavePost = {
@@ -43,6 +43,10 @@ export const AddPostSection = () => {
   const titleChangeHandler = (heading: string) => {
     setPost({...post, title: heading})
   }
+
+  const tagsChangeHandler =(tags: ITag[]) => {
+    setPost({...post,selectedTags:tags})
+  }
   return (
     <div className="section">
       <div className={classes.flexRow}>
@@ -68,7 +72,7 @@ export const AddPostSection = () => {
         <div className={classes.details}>
           <h3>Additional Details</h3>
           <PostSummaryInput onChange={summaryChangeHandler} />
-          <PostTags />
+          <PostTags onChange={tagsChangeHandler}/>
           <FeaturedImage onChange={featuredImageChangeHandler} />
         </div>
       </div>
