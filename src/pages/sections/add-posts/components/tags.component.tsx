@@ -1,19 +1,52 @@
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 import { useState } from "react";
 import { InputBox } from "../../../../components/input-box/input-box.component";
 import { ITag } from "../../../../data/IPost";
 import { useTags } from "../../../../hooks/useTags";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useToasts } from "react-toast-notifications";
+
 export const PostTags = () => {
   const classes: any = useStyles();
+  const {addToast} = useToasts();
+  const { getAccessTokenSilently } = useAuth0();
   const [newTag, setNewTag] = useState<string>("");
-  let tags: ITag[] = [];
-  const getData = () => {
-     // eslint-disable-next-line react-hooks/rules-of-hooks
-     tags = useTags();
-  }
-  getData();
+  let tags: ITag[] = useTags();
+  const addTagHandler = () => {
+    if (newTag !== "") {
+      const addTag = async () => {
+        axios.post(
+          `${process.env.REACT_APP_ENDPOINT_URL}/admin/tags/add`,
+          {
+            tagName: newTag,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${await getAccessTokenSilently()}`,
+            },
+          }
+        ).then(response => {
+          if(response.status===200){
+            tags = [...tags, response.data];
+            addToast('Tag created successfully.', {
+              appearance:'success',
+              autoDismiss: true,
+            });
+            setNewTag('');
+          }
+        }, error => {
+          addToast(error, {
+            appearance:'error',
+            autoDismiss: true,
+          });
+        });
+      };
+      addTag();
+    }
+  };
   return (
     <div>
       <h3>Tags</h3>
@@ -26,7 +59,9 @@ export const PostTags = () => {
           value={newTag}
           onTextChange={(e) => setNewTag(e)}
         />
-        <button className={`${classes.button} btn`}>Add Tag</button>
+        <button onClick={addTagHandler} className={`${classes.button} btn`}>
+          Add Tag
+        </button>
       </div>
       <div className={classes.checkboxes}>
         {tags.map((tag, index) => {
@@ -39,19 +74,18 @@ export const PostTags = () => {
             />
           );
         })}
-        
       </div>
     </div>
   );
 };
 
 const useStyles = makeStyles(() => ({
-  checkboxes:{
+  checkboxes: {
     display: "flex",
     flexDirection: "column",
-    '& .Mui-checked':{
-      color: '#709ef5',
-    }
+    "& .Mui-checked": {
+      color: "#709ef5",
+    },
   },
   inputRow: {
     display: "flex",
