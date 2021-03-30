@@ -1,7 +1,13 @@
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
-export const PostSummaryInput = () => {
+interface Props{
+  onChange: (summary:string) => void;
+}
+export const PostSummaryInput = ({onChange}:Props) => {
   const classes: any = useStyles();
+  const changeHandler = (summary: string) => {
+    onChange(summary);
+  }
   return (
     <div className={classes.textAreaContainer}>
       <label  htmlFor="postSummary">
@@ -12,6 +18,7 @@ export const PostSummaryInput = () => {
         cols={60}
         rows={5}
         maxLength={1000}
+        onChange={(e) => changeHandler(e.target.value)}
       ></textarea>
     </div>
   );

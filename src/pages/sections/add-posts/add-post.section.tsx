@@ -35,6 +35,10 @@ export const AddPostSection = () => {
   const featuredImageChangeHandler = (src:string) => {
     setPost({...post, image: `${process.env.REACT_APP_ENDPOINT_URL}/${src}`})
   }
+
+  const summaryChangeHandler = (summary:string) => {
+    setPost({...post, description: summary});
+  }
   return (
     <div className="section">
       <div className={classes.flexRow}>
@@ -59,7 +63,7 @@ export const AddPostSection = () => {
         </div>
         <div className={classes.details}>
           <h3>Additional Details</h3>
-          <PostSummaryInput />
+          <PostSummaryInput onChange={summaryChangeHandler} />
           <PostTags />
           <FeaturedImage onChange={featuredImageChangeHandler} />
         </div>
