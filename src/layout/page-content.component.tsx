@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import { DashboardContent } from "../pages/dashboard-content";
 import { PageNotFound } from "../pages/not-found.page";
 import { PostsSection } from './../pages/sections/posts.section';
-import { AddPostSection } from './../pages/sections/add-post.section';
+import { AddPostSection } from '../pages/sections/add-posts/add-post.section';
 
 export const PageContent = () => {
   const classes: any = useStyles();

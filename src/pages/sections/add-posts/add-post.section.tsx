@@ -1,19 +1,17 @@
 import { makeStyles } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
-import React, { useState } from "react";
-import { Editor } from "../../components/Editor/editor.component";
-import { InputBox } from "../../components/input-box/input-box.component";
-import { headerService } from "../../services/content-header.service";
+import React from "react";
+import { Editor } from "../../../components/Editor/editor.component";
+import { headerService } from "../../../services/content-header.service";
+import { TitleTextBox } from "./components/title-text-box.component";
 
 export const AddPostSection = () => {
-  const [title, setTitle] = useState("");
+  
   headerService.setHeader("Add Post");
   const classes: any = useStyles();
 
   const editorContentChangeHandler = (value: string) => {};
-  const titleChangeandler = (text: string) => {
-    setTitle(text);
-  };
+  
   return (
     <div className="section">
       <div className={classes.flexRow}>
@@ -32,13 +30,7 @@ export const AddPostSection = () => {
         </div>
       </div>
       <div className={classes.form}>
-        <InputBox
-          value={title}
-          type="text"
-          placeholder="Enter post title"
-          maxLength={500}
-          onTextChange={titleChangeandler}
-        />
+        <TitleTextBox />
         <Editor onContentChange={editorContentChangeHandler} />
       </div>
     </div>
