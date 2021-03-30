@@ -3,6 +3,7 @@ import Icon from "@material-ui/core/Icon/Icon";
 import axios from "axios";
 import _ from "lodash";
 import React, { useRef, useState } from "react";
+import { useToasts } from "react-toast-notifications";
 import { InputBox } from "../../../../components/input-box/input-box.component";
 export const TitleTextBox = () => {
   const classes: any = useStyles();
@@ -11,7 +12,7 @@ export const TitleTextBox = () => {
     undefined
   );
   const delayedCall = useRef(_.debounce((q) => verify(q), 1000)).current;
-
+  const {addToast} = useToasts();
   const verify = async (title: string) => {
     if(title.trim() !== ''){
       const response = await axios.get(
@@ -19,6 +20,17 @@ export const TitleTextBox = () => {
       );
       if (response.status === 200) {
         setVerification(response.data);
+        if(response.data){
+          addToast("Title is available to use.", {
+            appearance: 'info',
+            autoDismiss: true,
+          });
+        }else{
+          addToast("Title is unavailable.", {
+            appearance: 'error',
+            autoDismiss: true,
+          });
+        }
       }
     }
     else{

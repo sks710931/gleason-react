@@ -5,9 +5,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { ToastProvider } from "react-toast-notifications";
 
 ReactDOM.render(
-  <React.StrictMode>
     <Auth0Provider
       domain="altegic-studio.auth0.com"
       clientId="o5AOUeJQjRbSfVCJGqEC77XOwSRJGdpI"
@@ -15,11 +15,12 @@ ReactDOM.render(
       audience="https://shivam-singh-blog-api.azurewebsites.net"
       scope="read:current_user update:current_user_metadata all:all"
     >
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Auth0Provider>
-  </React.StrictMode>,
+      <ToastProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ToastProvider>
+    </Auth0Provider>,
   document.getElementById("root")
 );
 
