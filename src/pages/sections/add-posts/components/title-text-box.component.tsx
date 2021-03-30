@@ -1,13 +1,21 @@
 import { makeStyles } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon/Icon";
-import React, { useState } from "react";
+import _ from "lodash";
+import React, { useRef, useState } from "react";
 import { InputBox } from "../../../../components/input-box/input-box.component";
 export const TitleTextBox = () => {
   const classes: any = useStyles();
   const [title, setTitle] = useState("");
   const [isVerified, setVerification] = useState<boolean | undefined>(undefined);
+  const delayedCall = useRef(_.debounce(q => verify(q), 1000)).current;
+
+
+  const verify = (title: string) => {
+    console.log('debounced: ', title)
+  }
   const titleChangeandler = (text: string) => {
     setTitle(text);
+    delayedCall(text);
   };
   return (
     <div className={classes.container}>
