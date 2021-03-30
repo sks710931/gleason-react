@@ -7,46 +7,73 @@ import { FeaturedImage } from "./components/featured-image";
 import { PostSummaryInput } from "./components/summary.component";
 import { PostTags } from "./components/tags.component";
 import { TitleTextBox } from "./components/title-text-box.component";
-import { ISavePost, ITag } from './../../../data/IPost';
+import { ISavePost, ITag } from "./../../../data/IPost";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useToasts } from "react-toast-notifications";
 
 export const AddPostSection = () => {
-  const initialPost:ISavePost = {
-    description:'',
-    title: '',
-    postModel:'',
-    selectedAuthors:{
-      authorDescription:'',
-      authorImage:'',
-      authorName:'',
-      email:'',
-      id:0,
-      posts:[]
-    }, 
-    selectedTags:[],
-    image:'',
+  const initialPost: ISavePost = {
+    description: "",
+    title: "",
+    postModel: "",
+    selectedAuthors: {
+      authorDescription: "",
+      authorImage: "",
+      authorName: "",
+      email: "",
+      id: 0,
+      posts: [],
+    },
+    selectedTags: [],
+    image: "",
     readTime: 8,
-  }
+  };
   headerService.setHeader("Add Post");
   const classes: any = useStyles();
   const [post, setPost] = useState<ISavePost>(initialPost);
-  const editorContentChangeHandler = (value: string) => {
-    setPost({...post, postModel: value});
-  };
-  const featuredImageChangeHandler = (src:string) => {
-    setPost({...post, image: `${process.env.REACT_APP_ENDPOINT_URL}/${src}`})
-  }
+  const { getAccessTokenSilently } = useAuth0();
+  const { addToast } = useToasts();
 
-  const summaryChangeHandler = (summary:string) => {
-    setPost({...post, description: summary});
-  }
+  const editorContentChangeHandler = (value: string) => {
+    setPost({ ...post, postModel: value });
+  };
+  const featuredImageChangeHandler = (src: string) => {
+    setPost({ ...post, image: `${process.env.REACT_APP_ENDPOINT_URL}/${src}` });
+  };
+
+  const summaryChangeHandler = (summary: string) => {
+    setPost({ ...post, description: summary });
+  };
 
   const titleChangeHandler = (heading: string) => {
-    setPost({...post, title: heading})
-  }
+    setPost({ ...post, title: heading });
+  };
 
-  const tagsChangeHandler =(tags: ITag[]) => {
-    setPost({...post,selectedTags:tags})
-  }
+  const tagsChangeHandler = (tags: ITag[]) => {
+    setPost({ ...post, selectedTags: tags });
+  };
+
+  const onPublish = () => {
+    const savePost = async () => {
+      axios
+        .post(`${process.env.REACT_APP_ENDPOINT_URL}/admin/add-post`, post, {
+          headers: {
+            Authorization: `Bearer ${await getAccessTokenSilently()}`,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            addToast("Post created successfully.", {
+              appearance: "success",
+              autoDismiss: true,
+            });
+            setPost(initialPost);
+          }
+        });
+    };
+    savePost();
+  };
   return (
     <div className="section">
       <div className={classes.flexRow}>
@@ -58,7 +85,7 @@ export const AddPostSection = () => {
             <Icon>save</Icon>
             <p>Save</p>
           </button>
-          <button className={`${classes.button} btn`}>
+          <button onClick={onPublish} className={`${classes.button} btn`}>
             <Icon>upload</Icon>
             <p>Publish</p>
           </button>
@@ -66,13 +93,13 @@ export const AddPostSection = () => {
       </div>
       <div className={classes.container}>
         <div className={classes.form}>
-          <TitleTextBox onChange={titleChangeHandler}/>
+          <TitleTextBox onChange={titleChangeHandler} />
           <Editor onContentChange={editorContentChangeHandler} />
         </div>
         <div className={classes.details}>
           <h3>Additional Details</h3>
           <PostSummaryInput onChange={summaryChangeHandler} />
-          <PostTags onChange={tagsChangeHandler}/>
+          <PostTags onChange={tagsChangeHandler} />
           <FeaturedImage onChange={featuredImageChangeHandler} />
         </div>
       </div>
@@ -81,17 +108,17 @@ export const AddPostSection = () => {
 };
 
 const useStyles = makeStyles(() => ({
-  details:{
+  details: {
     paddingLeft: 30,
-    '& h3':{
+    "& h3": {
       color: "#709ef5",
     },
-    overflowY:'auto',
-    overflowX:'hidden',
-    height:'705px',
+    overflowY: "auto",
+    overflowX: "hidden",
+    height: "705px",
     paddingRight: 20,
   },
-  container:{
+  container: {
     display: "flex",
     flexDirection: "row",
   },
