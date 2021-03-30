@@ -39,6 +39,10 @@ export const AddPostSection = () => {
   const summaryChangeHandler = (summary:string) => {
     setPost({...post, description: summary});
   }
+
+  const titleChangeHandler = (heading: string) => {
+    setPost({...post, title: heading})
+  }
   return (
     <div className="section">
       <div className={classes.flexRow}>
@@ -58,7 +62,7 @@ export const AddPostSection = () => {
       </div>
       <div className={classes.container}>
         <div className={classes.form}>
-          <TitleTextBox />
+          <TitleTextBox onChange={titleChangeHandler}/>
           <Editor onContentChange={editorContentChangeHandler} />
         </div>
         <div className={classes.details}>

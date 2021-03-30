@@ -5,7 +5,12 @@ import _ from "lodash";
 import React, { useRef, useState } from "react";
 import { useToasts } from "react-toast-notifications";
 import { InputBox } from "../../../../components/input-box/input-box.component";
-export const TitleTextBox = () => {
+
+
+interface Props {
+  onChange : (title: string) => void;
+}
+export const TitleTextBox = ({onChange}:Props) => {
   const classes: any = useStyles();
   const [title, setTitle] = useState("");
   const [isVerified, setVerification] = useState<boolean | undefined>(
@@ -13,18 +18,20 @@ export const TitleTextBox = () => {
   );
   const delayedCall = useRef(_.debounce((q) => verify(q), 1000)).current;
   const {addToast} = useToasts();
-  const verify = async (title: string) => {
-    if(title.trim() !== ''){
+  const verify = async (text: string) => {
+    if(text.trim() !== ''){
       const response = await axios.get(
-        process.env.REACT_APP_ENDPOINT_URL + "/admin/verify-title/" + title.trim()
+        process.env.REACT_APP_ENDPOINT_URL + "/admin/verify-title/" + text.trim()
       );
       if (response.status === 200) {
         setVerification(response.data);
         if(response.data){
+          onChange(text);
           addToast("Title is available to use.", {
-            appearance: 'info',
+            appearance: 'success',
             autoDismiss: true,
           });
+          
         }else{
           addToast("Title is unavailable.", {
             appearance: 'error',
