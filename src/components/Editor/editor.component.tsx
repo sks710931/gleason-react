@@ -62,7 +62,8 @@ export const Editor = ({ onContentChange }: EditorProps) => {
   };
   const insertImageSettings = {
     display: "block",
-    saveUrl: "https://ej2.syncfusion.com/services/api/uploadbox/Save",
+    saveUrl: process.env.REACT_APP_ENDPOINT_URL +"/admin/image/upload",
+    path: process.env.REACT_APP_ENDPOINT_URL+"/Resources/Images/"
   };
   const textChangeHandler = (e: ChangeEventArgs) => {
     onContentChange(e.value);
