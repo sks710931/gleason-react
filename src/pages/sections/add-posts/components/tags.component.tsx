@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InputBox } from "../../../../components/input-box/input-box.component";
 import { ITag } from "../../../../data/IPost";
 import { useTags } from "../../../../hooks/useTags";
@@ -19,7 +20,11 @@ export const PostTags = ({onChange}: Props) => {
   const { getAccessTokenSilently } = useAuth0();
   const [newTag, setNewTag] = useState<string>("");
   const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
+  const [allTags, setTags] = useState<ITag[]>([]);
   let tags: ITag[] = useTags();
+  useEffect(()=>{
+    setTags(tags);
+  },[tags])
   const addTagHandler = () => {
     if (newTag !== "") {
       const addTag = async () => {
@@ -35,7 +40,8 @@ export const PostTags = ({onChange}: Props) => {
           }
         ).then(response => {
           if(response.status===200){
-            tags = [...tags, response.data];
+            alert(JSON.stringify(response.data))
+            setTags([...allTags, response.data]);
             addToast('Tag created successfully.', {
               appearance:'success',
               autoDismiss: true,
@@ -81,7 +87,7 @@ export const PostTags = ({onChange}: Props) => {
         </button>
       </div>
       <div className={classes.checkboxes}>
-        {tags.map((tag, index) => {
+        {allTags.map((tag, index) => {
           const key = `key_${index}`;
           return (
             <FormControlLabel

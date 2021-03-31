@@ -12,6 +12,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useToasts } from "react-toast-notifications";
 import { validateAddPost } from './../../../helpers/validateAddPost';
+import { formatHtml } from './../../../helpers/formatHtml';
 
 export const AddPostSection = () => {
   const initialPost: ISavePost = {
@@ -37,7 +38,7 @@ export const AddPostSection = () => {
   const { addToast } = useToasts();
 
   const editorContentChangeHandler = (value: string) => {
-    setPost({ ...post, postModel: value });
+    setPost({ ...post, postModel: formatHtml(value) });
   };
   const featuredImageChangeHandler = (src: string) => {
     setPost({ ...post, image: `${process.env.REACT_APP_ENDPOINT_URL}/${src}` });

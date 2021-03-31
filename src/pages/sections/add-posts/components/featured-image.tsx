@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import { Theme } from "@material-ui/core/styles";
 import { ImageGalleryDialog } from "./image-gallery-dlg";
+import { useAuth0 } from "@auth0/auth0-react";
+import { getImages } from './../../../../hooks/useImages';
 
 interface Props {
   onChange: (src: string) => void
@@ -10,6 +13,18 @@ export const FeaturedImage = ({onChange}: Props) => {
   const classes: any = useStyles();
   const [isDlgOpen, setDlgOpen] = useState<boolean>(false);
   const [featuredImage, setFeaturedImage] = useState<string>();
+  const [images, setImages] = useState<string[]>([]);
+  const {getAccessTokenSilently} = useAuth0();
+  useEffect(()=> {
+    const get = async () => {
+      
+      const token = await getAccessTokenSilently();
+      const images  = await getImages(token);
+      setImages(images);
+    }
+    get();
+    
+  },[])
   const onDialogClose = (e: string) => {
     setDlgOpen(false);
     setFeaturedImage(e);
@@ -36,7 +51,7 @@ export const FeaturedImage = ({onChange}: Props) => {
           Select Image
         </button>
       </div>
-      <ImageGalleryDialog open={isDlgOpen} onClose={onDialogClose} />
+      <ImageGalleryDialog images={images} open={isDlgOpen} onClose={onDialogClose} />
     </div>
   );
 };

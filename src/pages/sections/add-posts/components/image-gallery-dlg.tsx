@@ -1,22 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { makeStyles } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import React, { useState } from "react";
-import { useImages } from "../../../../hooks/useImages";
+import React, {  useState } from "react";
 import { Theme } from '@material-ui/core/styles';
 
 interface Props {
   open: boolean;
   onClose: (value: string) => void;
+  images: string[];
 }
-export const ImageGalleryDialog = ({ onClose, open }: Props) => {
+export const ImageGalleryDialog = ({ onClose, open, images }: Props) => {
   const handleClose = () => {
     onClose(selectedImage);
   };
   const [selectedImage, setSelectedImage] = useState('');
-  const images: string[] = useImages();
+  
   const classes: any = useStyles();
 
   const selectedImageHandler = (image:string) => {

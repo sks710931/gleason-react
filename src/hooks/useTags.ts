@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect, useState } from "react"
@@ -19,6 +20,6 @@ export const useTags = (): ITag[] => {
       })
     }
     getData();
-  })
+  },[])
   return tags;
 }
