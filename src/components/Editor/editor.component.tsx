@@ -69,7 +69,15 @@ export const Editor = ({ onContentChange }: EditorProps) => {
     onContentChange(e.value);
   };
 
-  
+  const actionCompleteHandler = (args: any) => {
+    if (args.requestType === "Links") {
+      const embedEle: HTMLElement = document.createElement("blockquote");
+      embedEle.setAttribute("class", "embedly-card");
+      embedEle.appendChild(args.elements[0].parentElement);
+      embedEle.appendChild(document.createElement("p"));
+      args.range.insertNode(embedEle);
+    }
+  };
   return (
     <div className="editor">
       <RichTextEditorComponent
@@ -79,6 +87,7 @@ export const Editor = ({ onContentChange }: EditorProps) => {
         toolbarSettings={toolbarSettings}
         fontFamily={fontFamily}
         insertImageSettings={insertImageSettings}
+        actionComplete={(e) => actionCompleteHandler(e)}
       >
         <Inject
           services={[Toolbar, Image, Link, HtmlEditor, QuickToolbar, Table]}

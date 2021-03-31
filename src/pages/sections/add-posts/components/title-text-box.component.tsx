@@ -1,8 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon/Icon";
 import axios from "axios";
-import _ from "lodash";
-import React, { useRef, useState } from "react";
+import React, {  useState } from "react";
 import { useToasts } from "react-toast-notifications";
 import { InputBox } from "../../../../components/input-box/input-box.component";
 
@@ -16,7 +15,6 @@ export const TitleTextBox = ({onChange}:Props) => {
   const [isVerified, setVerification] = useState<boolean | undefined>(
     undefined
   );
-  const delayedCall = useRef(_.debounce((q) => verify(q), 1000)).current;
   const {addToast} = useToasts();
   const verify = async (text: string) => {
     if(text.trim() !== ''){
@@ -27,11 +25,6 @@ export const TitleTextBox = ({onChange}:Props) => {
         setVerification(response.data);
         if(response.data){
           onChange(text);
-          addToast("Title is available to use.", {
-            appearance: 'success',
-            autoDismiss: true,
-          });
-          
         }else{
           addToast("Title is unavailable.", {
             appearance: 'error',
@@ -46,7 +39,7 @@ export const TitleTextBox = ({onChange}:Props) => {
   };
   const titleChangeandler = (text: string) => {
     setTitle(text);
-    delayedCall(text);
+    verify(text);
   };
   return (
     <div className={classes.content}>
