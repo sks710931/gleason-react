@@ -36,8 +36,8 @@ export const ImageGalleryDialog = ({ onClose, open }: Props) => {
       <DialogContent dividers>
         <div className={classes.content}>
           {images &&
-            images.map((image) => (
-              <button onClick={() => selectedImageHandler(image)} className={classes.imageItem}>
+            images.map((image, index) => (
+              <button key={index} onClick={() => selectedImageHandler(image)} className={classes.imageItem}>
                 <img
                   src={`${process.env.REACT_APP_ENDPOINT_URL}/${image}`}
                   alt={image}

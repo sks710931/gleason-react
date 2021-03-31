@@ -11,6 +11,7 @@ import { ISavePost, ITag } from "./../../../data/IPost";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useToasts } from "react-toast-notifications";
+import { validateAddPost } from './../../../helpers/validateAddPost';
 
 export const AddPostSection = () => {
   const initialPost: ISavePost = {
@@ -64,15 +65,50 @@ export const AddPostSection = () => {
         })
         .then((res) => {
           if (res.status === 200) {
+            setPost(initialPost);
             addToast("Post created successfully.", {
               appearance: "success",
               autoDismiss: true,
             });
-            setPost(initialPost);
+            
           }
         });
     };
-    savePost();
+    const { validationStatus, result} = validateAddPost(post);
+    if(validationStatus){
+      savePost();
+    }else{
+      if(!result.title){
+        addToast("Please enter a valid title.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+      if(!result.description){
+        addToast("Please enter a valid description.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+      if(!result.body){
+        addToast("Please enter a body.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+      if(!result.image){
+        addToast("Please select a featured image.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+      if(!result.tags){
+        addToast("Please select atleast one tag.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    }
   };
   return (
     <div className="section">
